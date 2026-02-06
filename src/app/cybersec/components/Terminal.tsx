@@ -38,7 +38,6 @@ export default function Terminal() {
     if (effectRan.current) return;
     effectRan.current = true;
 
-    // Initial focus and banner
     inputRef.current?.focus();
     executeCommand('banner');
   }, []);
@@ -48,12 +47,14 @@ export default function Terminal() {
     if (terminalRef.current) {
       setTimeout(() => {
         terminalRef.current!.scrollTop = terminalRef.current!.scrollHeight;
-      }, 10);
+      }, 50); // Increased timeout slightly for mobile rendering
     }
 
-    // FIX: Always refocus input when history updates or loading finishes
     if (!isLoading) {
-      inputRef.current?.focus();
+      // Small delay helps keep keyboard open on mobile
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 10);
     }
   }, [history, isLoading]);
 
@@ -61,10 +62,9 @@ export default function Terminal() {
     const trimmedCmd = cmd.trim();
     if (!trimmedCmd) return;
 
-    // Handle Clear
     if (trimmedCmd.toLowerCase() === 'clear') {
       setHistory([]);
-      setTimeout(() => inputRef.current?.focus(), 10); // Refocus after clear
+      setTimeout(() => inputRef.current?.focus(), 10);
       return;
     }
 
@@ -89,7 +89,6 @@ export default function Terminal() {
     setHistory((prev) => [...prev, { command: trimmedCmd, outputs }]);
     setIsLoading(false);
 
-    // FIX: Force focus back to input immediately after command logic is done
     setTimeout(() => {
       inputRef.current?.focus();
     }, 10);
@@ -124,7 +123,6 @@ export default function Terminal() {
     }
   };
 
-  // Keep focus if user clicks anywhere on terminal
   const handleContainerClick = () => {
     const selection = window.getSelection();
     if (selection && selection.toString().length > 0) return;
@@ -133,13 +131,14 @@ export default function Terminal() {
 
   return (
     <div
-      className="h-screen flex flex-col bg-gruvbox-bg text-gruvbox-fg font-mono p-4 md:p-6 overflow-hidden cursor-text transition-colors duration-300"
+      // Changed h-screen to h-[100dvh] for mobile browsers
+      className="h-[100dvh] flex flex-col bg-gruvbox-bg text-gruvbox-fg font-mono p-2 md:p-6 overflow-hidden cursor-text transition-colors duration-300"
       onClick={handleContainerClick}
     >
       <motion.div className="flex-1 overflow-y-auto" ref={terminalRef}>
         <HistoryDisplay history={history} isLoading={isLoading} />
 
-        <form onSubmit={handleSubmit} className="mt-2 pb-20">
+        <form onSubmit={handleSubmit} className="mt-2 pb-24 md:pb-20">
           <CommandInput
             value={currentCommand}
             onChange={setCurrentCommand}

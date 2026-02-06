@@ -22,18 +22,20 @@ export default function HistoryDisplay({
           transition={{ duration: 0.1 }}
         >
           {/* Command Prompt Line */}
-          <div className="flex items-center gap-2 text-gruvbox-green select-none">
-            <span className="text-gruvbox-blue font-bold">guest@cybersec</span>
-            <span className="text-gruvbox-fg">:</span>
+          <div className="flex items-center gap-2 text-gruvbox-green select-none text-sm md:text-base">
+            {/* Shortened prompt on mobile */}
+            <span className="hidden md:inline text-gruvbox-blue font-bold">
+              guest@cybersec
+            </span>
+            <span className="hidden md:inline text-gruvbox-fg">:</span>
             <span className="text-gruvbox-purple">~</span>
             <span className="text-gruvbox-fg">$</span>
-            <span className="text-gruvbox-fg">{entry.command}</span>
+            <span className="text-gruvbox-fg break-all">{entry.command}</span>
           </div>
 
-          {/* Output content */}
-          <div className="mt-1 pl-0 text-gruvbox-fg whitespace-pre-wrap break-words">
+          {/* Output content - Added overflow-x-auto for ASCII art support */}
+          <div className="mt-1 pl-0 text-gruvbox-fg whitespace-pre-wrap break-words overflow-x-auto">
             {entry.outputs.map((output, i) => {
-              // FIX: Check for IMAGE: prefix
               if (output.startsWith('IMAGE:')) {
                 const src = output.replace('IMAGE:', '').trim();
                 return (
@@ -46,9 +48,12 @@ export default function HistoryDisplay({
                   </div>
                 );
               }
-              // Standard text output
+              // Standard text output with min-width to prevent ASCII crunching
               return (
-                <div key={i} className="leading-none min-h-[1.2em]">
+                <div
+                  key={i}
+                  className="leading-tight min-h-[1.2em] whitespace-pre md:whitespace-pre-wrap"
+                >
                   {output}
                 </div>
               );

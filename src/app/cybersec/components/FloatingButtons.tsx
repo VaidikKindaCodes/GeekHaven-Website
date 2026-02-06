@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
-// Updated 'command' for Team to 'team'
 const quickCommands = [
   { label: 'Help', command: 'help', icon: '[?]', color: 'bg-gruvbox-blue' },
   { label: 'About', command: 'about', icon: '[i]', color: 'bg-gruvbox-green' },
@@ -19,7 +18,8 @@ export default function FloatingButtons({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-mono">
+    // Adjusted bottom spacing for mobile browsers
+    <div className="fixed bottom-8 right-4 md:bottom-6 md:right-6 z-50 font-mono">
       <div className="flex flex-col-reverse items-end gap-3">
         <AnimatePresence>
           {isExpanded &&
@@ -33,10 +33,10 @@ export default function FloatingButtons({
                   onCommandClick(cmd.command);
                   setIsExpanded(false);
                 }}
-                className={`${cmd.color} text-gruvbox-bg px-4 py-2 border-2 border-gruvbox-fg shadow-xl hover:brightness-110 flex items-center gap-3 font-bold`}
+                className={`${cmd.color} text-gruvbox-bg px-3 py-2 md:px-4 md:py-2 border-2 border-gruvbox-fg shadow-xl hover:brightness-110 flex items-center gap-3 font-bold`}
               >
-                <span className="text-lg">{cmd.icon}</span>
-                <span className="uppercase tracking-widest text-sm">
+                <span className="text-base md:text-lg">{cmd.icon}</span>
+                <span className="uppercase tracking-widest text-xs md:text-sm">
                   {cmd.label}
                 </span>
               </motion.button>
@@ -44,8 +44,9 @@ export default function FloatingButtons({
         </AnimatePresence>
 
         <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={() => setIsExpanded(!isExpanded)}
-          className="bg-gruvbox-orange text-gruvbox-bg w-14 h-14 border-2 border-gruvbox-fg shadow-xl flex items-center justify-center text-xl font-bold"
+          className="bg-gruvbox-orange text-gruvbox-bg w-12 h-12 md:w-16 md:h-16 border-2 border-gruvbox-fg shadow-xl flex items-center justify-center text-xl md:text-2xl font-bold"
         >
           {isExpanded ? '[X]' : '[+]'}
         </motion.button>

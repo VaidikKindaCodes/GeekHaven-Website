@@ -8,7 +8,19 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        // Terminal Fonts
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'monospace'],
+
+        // Design Wing Fonts
+        zentry: ['zentry', 'sans-serif'],
+        general: ['general', 'sans-serif'],
+        'circular-web': ['circular-web', 'sans-serif'],
+        'robert-medium': ['robert-medium', 'sans-serif'],
+        'robert-regular': ['robert-regular', 'sans-serif'],
+      },
       colors: {
+        // Terminal Colors (Gruvbox)
         gruvbox: {
           bg: '#282828',
           'bg-hard': '#1d2021',
@@ -23,9 +35,21 @@ module.exports = {
           gray: '#928374',
           orange: '#fe8019',
         },
-      },
-      fontFamily: {
-        mono: ['var(--font-mono)', 'JetBrains Mono', 'Fira Code', 'monospace'],
+        // Design Wing Colors
+        blue: {
+          50: '#DFDFF0',
+          75: '#DFDFF2',
+          100: '#F0F2FA',
+          200: '#010101',
+          300: '#4FB7DD',
+        },
+        violet: {
+          300: '#5724FF',
+        },
+        yellow: {
+          100: '#8E983F',
+          300: '#EDFF66',
+        },
       },
       animation: {
         'cursor-blink': 'blink 1s step-end infinite',

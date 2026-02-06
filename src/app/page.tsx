@@ -28,7 +28,7 @@ export default function Home() {
     },
     {
       name: 'Design',
-      path: '#',
+      path: '/design',
       color: 'border-purple-500 text-purple-500',
       icon: '🎨',
     },

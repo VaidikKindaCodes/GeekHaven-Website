@@ -19,12 +19,14 @@ export default function CommandInput({
 }: CommandInputProps) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-gruvbox-blue whitespace-nowrap font-bold select-none">
+      {/* Hide full username on mobile to save space */}
+      <span className="hidden md:inline text-gruvbox-blue whitespace-nowrap font-bold select-none">
         guest@cybersec
       </span>
-      <span className="text-gruvbox-fg select-none">:</span>
+      <span className="hidden md:inline text-gruvbox-fg select-none">:</span>
       <span className="text-gruvbox-purple select-none">~</span>
       <span className="text-gruvbox-fg select-none">$</span>
+
       <input
         ref={inputRef}
         type="text"
@@ -32,7 +34,8 @@ export default function CommandInput({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={onKeyDown}
         disabled={disabled}
-        className="flex-1 bg-transparent outline-none text-gruvbox-fg caret-gruvbox-green disabled:opacity-50"
+        // Added text-[16px] md:text-xl to prevent iOS zoom on focus
+        className="flex-1 bg-transparent outline-none text-gruvbox-fg caret-gruvbox-green disabled:opacity-50 text-[16px] md:text-xl"
         autoFocus
         spellCheck={false}
         autoComplete="off"
