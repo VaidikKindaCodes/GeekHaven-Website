@@ -33,7 +33,7 @@ export default function About() {
       <div className="relative z-10 pt-20 pb-20 px-6">
         <div className="max-w-5xl mx-auto">
           {/* Back button */}
-          <Link href="/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-12 transition-colors font-mono text-sm">
+          <Link href="/blockchain" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-12 transition-colors font-mono text-sm">
             <ArrowLeft className="w-4 h-4" />
             RETURN TO NETWORK
           </Link>

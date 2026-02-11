@@ -110,7 +110,7 @@ export default function Projects() {
       <AnimatedBackground />
 
       <div className="relative z-10 container mx-auto px-4 py-12">
-        <Link href="/" className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 mb-12 transition-colors font-mono text-sm">
+        <Link href="/blockchain" className="inline-flex items-center gap-2 text-pink-400 hover:text-pink-300 mb-12 transition-colors font-mono text-sm">
           <ArrowLeft className="w-4 h-4" />
           RETURN TO NETWORK
         </Link>
