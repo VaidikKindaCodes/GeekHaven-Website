@@ -1,97 +1,101 @@
 'use client'
 
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
 export function AnimatedBackground() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return <div className="absolute inset-0 bg-[#020617]" />
+
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950" />
+    <div className="absolute inset-0 overflow-hidden bg-[#020617] pointer-events-none">
+      {/* 1. 3D Perspective Grid */}
+      <div 
+        className="absolute inset-0 opacity-20"
+        style={{
+          perspective: '1000px',
+          transformStyle: 'preserve-3d',
+        }}
+      >
+        <motion.div 
+          className="absolute inset-0"
+          initial={{ rotateX: 60, y: '-10%' }}
+          animate={{ 
+            y: ['-10%', '-15%', '-10%'],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, #1e293b 1px, transparent 1px),
+              linear-gradient(to bottom, #1e293b 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+            maskImage: 'radial-gradient(ellipse at center, black, transparent 80%)',
+          }}
+        />
+      </div>
 
-      {/* Animated grid background */}
-      <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(34, 211, 238, 0.3)" strokeWidth="0.5" />
-          </pattern>
-          <pattern id="diagonalGrid" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="60" stroke="rgba(59, 130, 246, 0.2)" strokeWidth="0.5" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-        <rect width="100%" height="100%" fill="url(#diagonalGrid)" />
-      </svg>
-
-      {/* Floating crypto symbols/hex codes */}
-      <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 15 }).map((_, i) => (
+      {/* 2. Binary Data Streams */}
+      <div className="absolute inset-0 opacity-[0.08] flex justify-around">
+        {Array.from({ length: 12 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute text-cyan-500/20 font-mono text-sm"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              opacity: 0,
-            }}
-            animate={{
-              y: [0, -100],
-              opacity: [0, 0.3, 0],
-            }}
+            className="text-[10px] text-cyan-400 font-mono break-all w-4 leading-none"
+            initial={{ y: -1000 }}
+            animate={{ y: 1000 }}
             transition={{
-              duration: 8 + Math.random() * 4,
-              delay: i * 0.3,
+              duration: 15 + Math.random() * 25,
               repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * -20 // Start at different positions
             }}
           >
-            {Math.random() > 0.5 ? `0x${Math.random().toString(16).slice(2, 8)}` : '◆ ◇ ◆'}
+            {Array.from({ length: 100 }).map(() => (Math.random() > 0.5 ? '1' : '0')).join('')}
           </motion.div>
         ))}
       </div>
 
-      {/* Glowing orbs */}
+      {/* 3. Glowing Nebula Orbs */}
       <motion.div
-        className="absolute w-96 h-96 rounded-full bg-cyan-500/20 blur-3xl"
-        style={{ top: '10%', left: '10%' }}
-        animate={{
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.15, 0.25, 0.15],
           x: [0, 50, 0],
-          y: [0, 30, 0],
+          y: [0, 30, 0]
         }}
         transition={{ duration: 15, repeat: Infinity }}
+        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] bg-cyan-500/20 blur-[120px] rounded-full"
       />
       <motion.div
-        className="absolute w-96 h-96 rounded-full bg-blue-500/20 blur-3xl"
-        style={{ bottom: '10%', right: '10%' }}
-        animate={{
-          x: [0, -50, 0],
-          y: [0, -30, 0],
+        animate={{ 
+          scale: [1.2, 1, 1.2],
+          opacity: [0.1, 0.2, 0.1],
+          x: [0, -40, 0],
+          y: [0, -60, 0]
         }}
         transition={{ duration: 20, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute w-72 h-72 rounded-full bg-purple-500/15 blur-3xl"
-        style={{ top: '50%', right: '20%' }}
-        animate={{
-          x: [0, 30, -30, 0],
-          y: [0, 50, -50, 0],
-        }}
-        transition={{ duration: 25, repeat: Infinity }}
+        className="absolute -bottom-1/4 -right-1/4 w-[600px] h-[600px] bg-purple-600/10 blur-[120px] rounded-full"
       />
 
-      {/* Scan lines effect */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.1),
-            rgba(0, 0, 0, 0.1) 1px,
-            transparent 1px,
-            transparent 2px
-          )`,
-        }}
-        animate={{ opacity: [0.03, 0.08, 0.03] }}
-        transition={{ duration: 3, repeat: Infinity }}
+      {/* 4. Scanning Line */}
+      <motion.div 
+        className="absolute inset-0 w-full h-[2px] bg-cyan-500/10 z-10"
+        animate={{ y: ['0vh', '100vh'] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
       />
+
+      {/* 5. Noise and Vignette */}
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`
+        }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.9)_100%)]" />
     </div>
   )
 }
